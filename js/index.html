@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset='utf-8'>
+    <title></title> 
+    <script type='application/javascript' src='233.js'></script>
+  </head>
+  <body>
+    <script type='application/javascript'>
+      function addTop(id, line, text, colour) {
+        var t = document.createElement('p');
+        t.textContent = text;
+        t.style.color = colour;
+        t.style.position = 'absolute';
+        t.style.top = (line * 24).toString() + 'px';
+        t.id = 'top-' + id.toString();
+        document.body.appendChild(t);
+      }
+      function removeTop(id) {
+        var t = document.getElementById('top-' + id.toString());
+        document.body.removeChild(t);
+      }
+      js233.addComment(1, 'One Second Red', '#f00', 1);
+      js233.addComment(2, 'Two Second Blue', '#00f', 1);
+      js233.addComment(2.5, 'Two Point Five Second Green', '#0f0', 1);
+      js233.addComment(3.5, 'Three Point Five Second Grey', '#666', 1);
+      js233.addComment(3.5, 'Three Point Five Second Red', '#f00', 1);
+      js233.addComment(5, 'Five Second Black', '#000', 1);
+      js233.addComment(6, 'Six Second Black', '#000', 1);
+      var results = js233.getAll();
+      results[1].forEach(function (r) {
+        setTimeout(function () {
+          addTop(r.id, r.line, r.text, r.colour);
+        }, r.time * 1000);
+        setTimeout(function () {
+          removeTop(r.id);
+        }, (r.time + 2) * 1000);
+      });
+    </script>
+  </body>
+</html>
