@@ -7,6 +7,7 @@
 
   var js233 = (function () {
     var comments = [[], [], []];
+    var EV_TOP_STUCK_ADD = 3, EV_TOP_STUCK_RM = 4;
     var STUCK_DURATION = 2;
 
     function addComment(time, text, colour, type) {
@@ -31,35 +32,39 @@
     }
 
     function getAll() {
-      var r = [[], [], []];
+      var r = [];
       // Top-stuck comments (type 1)
       sort(comments[1]);
-      var posUsage = [], i, j, cur, found, ret;
+      var posUsage = [], i, j, cur, found, add, rm;
       // Iterate through each comment.
       for (i = 0; i < comments[1].length; i++) {
         cur = comments[1][i];
         found = false;
-        ret = {id: i, time: cur[0], text: cur[1], colour: cur[2]};
+        add = {type: EV_TOP_STUCK_ADD, id: i, time: cur[0], text: cur[1], colour: cur[2]};
+        rm = {type: EV_TOP_STUCK_RM, id: i, time: cur[0] + STUCK_DURATION};
         // Find a place to put the comment.
         for (j = 0; j < posUsage.length; j++) if (posUsage[j] < cur[0]) {
           // Found that line #i is available. Put it there.
-          ret.line = j;
-          posUsage[j] = cur[0] + STUCK_DURATION;
+          add.line = j;
+          posUsage[j] = rm.time;
           found = true; break;
         }
         if (!found) {
           // No current line is available. Allocate a new one.
-          ret.line = posUsage.length;
-          posUsage.push(cur[0] + STUCK_DURATION);
+          add.line = posUsage.length;
+          posUsage.push(rm.time);
         }
-        r[1].push(ret);
+        r.push(add);
+        r.push(rm);
       }
       return r;
     }
 
     return {
       addComment: addComment,
-      getAll: getAll
+      getAll: getAll,
+      EV_TOP_STUCK_ADD: EV_TOP_STUCK_ADD,
+      EV_TOP_STUCK_RM: EV_TOP_STUCK_RM
     };
   }());
 

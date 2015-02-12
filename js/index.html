@@ -28,13 +28,21 @@
       js233.addComment(5, 'Five Second Black', '#000', 1);
       js233.addComment(6, 'Six Second Black', '#000', 1);
       var results = js233.getAll();
-      results[1].forEach(function (r) {
-        setTimeout(function () {
-          addTop(r.id, r.line, r.text, r.colour);
-        }, r.time * 1000);
-        setTimeout(function () {
-          removeTop(r.id);
-        }, (r.time + 2) * 1000);
+      results.forEach(function (r) {
+        switch (r.type) {
+        case js233.EV_TOP_STUCK_ADD:
+          setTimeout(function () {
+            addTop(r.id, r.line, r.text, r.colour);
+          }, r.time * 1000);
+          break;
+        case js233.EV_TOP_STUCK_RM:
+          setTimeout(function () {
+            removeTop(r.id);
+          }, r.time * 1000);
+          break;
+        default:
+          break;
+        }
       });
     </script>
   </body>
