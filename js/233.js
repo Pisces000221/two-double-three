@@ -7,8 +7,9 @@
 
   var js233 = (function () {
     var comments = [[], [], []];
-    var EV_TOP_STUCK_ADD = 3, EV_TOP_STUCK_RM = 4;
-    var STUCK_DURATION = 2;
+    var EV_TOP_STICKY_ADD = 3, EV_TOP_STICKY_RM = 4;
+    var EV_BOTTOM_STICKY_ADD = 5, EV_BOTTOM_STICKY_RM = 6;
+    var STICKY_DURATION = 2;
 
     function addComment(time, text, colour, type) {
       comments[type].push([time, text, colour]);
@@ -31,17 +32,15 @@
       if (j > l) sort(a, l, j);
     }
 
-    function getAll() {
-      var r = [];
-      // Top-stuck comments (type 1)
-      sort(comments[1]);
+    function stickyOperations(cmtList, oprList, addEvent, rmEvent) {
+      sort(cmtList);
       var posUsage = [], i, j, cur, found, add, rm;
       // Iterate through each comment.
-      for (i = 0; i < comments[1].length; i++) {
-        cur = comments[1][i];
+      for (i = 0; i < cmtList.length; i++) {
+        cur = cmtList[i];
         found = false;
-        add = {type: EV_TOP_STUCK_ADD, id: i, time: cur[0], text: cur[1], colour: cur[2]};
-        rm = {type: EV_TOP_STUCK_RM, id: i, time: cur[0] + STUCK_DURATION};
+        add = {type: addEvent, id: i, time: cur[0], text: cur[1], colour: cur[2]};
+        rm = {type: rmEvent, id: i, time: cur[0] + STICKY_DURATION};
         // Find a place to put the comment.
         for (j = 0; j < posUsage.length; j++) if (posUsage[j] < cur[0]) {
           // Found that line #i is available. Put it there.
@@ -54,17 +53,27 @@
           add.line = posUsage.length;
           posUsage.push(rm.time);
         }
-        r.push(add);
-        r.push(rm);
+        oprList.push(add);
+        oprList.push(rm);
       }
+    }
+
+    function getAll() {
+      var r = [];
+      // Top-sticky comments (type 1)
+      stickyOperations(comments[1], r, EV_TOP_STICKY_ADD, EV_TOP_STICKY_RM);
+      // Bottom-sticky comments (type 2)
+      stickyOperations(comments[2], r, EV_BOTTOM_STICKY_ADD, EV_BOTTOM_STICKY_RM);
       return r;
     }
 
     return {
       addComment: addComment,
       getAll: getAll,
-      EV_TOP_STUCK_ADD: EV_TOP_STUCK_ADD,
-      EV_TOP_STUCK_RM: EV_TOP_STUCK_RM
+      EV_TOP_STICKY_ADD: EV_TOP_STICKY_ADD,
+      EV_TOP_STICKY_RM: EV_TOP_STICKY_RM,
+      EV_BOTTOM_STICKY_ADD: EV_BOTTOM_STICKY_ADD,
+      EV_BOTTOM_STICKY_RM: EV_BOTTOM_STICKY_RM
     };
   }());
 
