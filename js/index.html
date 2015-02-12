@@ -7,6 +7,27 @@
   </head>
   <body>
     <script type='application/javascript'>
+      function addSliding(id, line, text, duration, colour) {
+        var t = document.createElement('p');
+        t.textContent = text;
+        t.style.color = colour;
+        t.style.position = 'absolute';
+        t.style.top = (line * 24).toString() + 'px';
+        t.style.left = (-t.clientWidth).toString() + 'px';
+        t.id = 'slide-' + id.toString();
+        document.body.appendChild(t);
+        var w = window.innerWidth, cl = w - t.clientWidth,
+            fin = -t.clientWidth, delta = w / duration * 0.1, timer;
+        timer = setInterval(function () {
+          cl -= delta;
+          t.style.left = cl.toString() + 'px';
+          if (cw <= fin) clearInterval(timer);
+        }, 100);
+      }
+      function removeSliding(id) {
+        var t = document.getElementById('slide-' + id.toString());
+        document.body.removeChild(t);
+      }
       function addSticky(type, id, line, text, colour) {
         var t = document.createElement('p');
         t.textContent = text;
@@ -20,6 +41,7 @@
         var t = document.getElementById(type + '-' + id.toString());
         document.body.removeChild(t);
       }
+      js233.addComment(1, 'One Second Blue', '#00f', 0);
       js233.addComment(1, 'One Second Red', '#f00', 1);
       js233.addComment(2, 'Two Second Blue', '#00f', 1);
       js233.addComment(2.5, 'Two Point Five Second Green', '#0f0', 1);
@@ -33,6 +55,16 @@
       var operations = js233.getAll();
       operations.forEach(function (op) {
         switch (op.type) {
+        case js233.EV_SLIDING_ADD:
+          setTimeout(function () {
+            addSliding(op.id, op.line, op.text, op.duration, op.colour);
+          }, op.time * 1000);
+          break;
+        case js233.EV_SLIDING_RM:
+          setTimeout(function () {
+            removeSliding(op.id);
+          }, op.time * 1000);
+          break;
         case js233.EV_TOP_STICKY_ADD:
           setTimeout(function () {
             addSticky('top', op.id, op.line, op.text, op.colour);
