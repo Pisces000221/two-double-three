@@ -7,9 +7,12 @@
 
   var js233 = (function () {
     var comments = [[], [], []];
+    // EV_SLIDING_RM is not necessarily used.
+    // Sliding comments can be removed when it reaches the left border.
     var EV_SLIDING_ADD = 1, EV_SLIDING_RM = 2;
     var EV_TOP_STICKY_ADD = 3, EV_TOP_STICKY_RM = 4;
     var EV_BOTTOM_STICKY_ADD = 5, EV_BOTTOM_STICKY_RM = 6;
+
     var SLIDE_MIN_TIME = 10, SLIDE_MAX_TIME = 25;
     var STICKY_MIN_TIME = 2, STICKY_MAX_TIME = 3;
 

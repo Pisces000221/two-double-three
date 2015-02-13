@@ -21,7 +21,10 @@
         timer = setInterval(function () {
           cl -= delta;
           t.style.left = cl.toString() + 'px';
-          if (cw <= fin) clearInterval(timer);
+          if (cl <= fin) {
+              clearInterval(timer);
+              removeSliding(id);
+          }
         }, 100);
       }
       function removeSliding(id) {
@@ -58,11 +61,6 @@
         case js233.EV_SLIDING_ADD:
           setTimeout(function () {
             addSliding(op.id, op.line, op.text, op.duration, op.colour);
-          }, op.time * 1000);
-          break;
-        case js233.EV_SLIDING_RM:
-          setTimeout(function () {
-            removeSliding(op.id);
           }, op.time * 1000);
           break;
         case js233.EV_TOP_STICKY_ADD:
