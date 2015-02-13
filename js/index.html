@@ -11,14 +11,13 @@
   </head>
   <body>
     <script type='application/javascript'>
-      function addSliding(id, line, text, duration, colour) {
+      function addSliding(line, text, duration, colour) {
         var t = document.createElement('p');
         t.textContent = text;
         t.classList.add('sliding');
         t.style.color = colour;
         t.style.top = (line * 24).toString() + 'px';
         t.style.left = (-t.clientWidth).toString() + 'px';
-        t.id = 'slide-' + id.toString();
         document.body.appendChild(t);
         var w = window.innerWidth, cl = w - t.clientWidth,
             fin = -t.clientWidth, delta = w / duration * 0.1, timer;
@@ -62,30 +61,28 @@
       var operations = js233.getAll();
       operations.forEach(function (op) {
         switch (op.type) {
-        case js233.EV_SLIDING_ADD:
+        case js233.CMT_SLIDING:
           setTimeout(function () {
-            addSliding(op.id, op.line, op.text, op.duration, op.colour);
+            addSliding(op.line, op.text, op.duration, op.colour);
           }, op.time * 1000);
           break;
-        case js233.EV_TOP_STICKY_ADD:
+        case js233.CMT_TOP_STICKY:
+          var id = Math.floor(Math.random() * 1029348328756);
           setTimeout(function () {
-            addSticky('top', op.id, op.line, op.text, op.colour);
+            addSticky('top', id, op.line, op.text, op.colour);
           }, op.time * 1000);
+          setTimeout(function () {
+            removeSticky('top', id);
+          }, (op.time + op.duration) * 1000);
           break;
-        case js233.EV_TOP_STICKY_RM:
+        case js233.CMT_BOTTOM_STICKY:
+          var id = Math.floor(Math.random() * 1029348328756);
           setTimeout(function () {
-            removeSticky('top', op.id);
+            addSticky('bottom', id, op.line, op.text, op.colour);
           }, op.time * 1000);
-          break;
-        case js233.EV_BOTTOM_STICKY_ADD:
           setTimeout(function () {
-            addSticky('bottom', op.id, op.line, op.text, op.colour);
-          }, op.time * 1000);
-          break;
-        case js233.EV_BOTTOM_STICKY_RM:
-          setTimeout(function () {
-            removeSticky('bottom', op.id);
-          }, op.time * 1000);
+            removeSticky('bottom', id);
+          }, (op.time + op.duration) * 1000);
           break;
         default:
           break;
