@@ -7,9 +7,9 @@
 
   var js233 = (function () {
     var comments = [[], [], []];
-    var CMT_SLIDING = 1;
-    var CMT_TOP_STICKY = 2;
-    var CMT_BOTTOM_STICKY = 3;
+    var CMT_SLIDING = 0;
+    var CMT_TOP_STICKY = 1;
+    var CMT_BOTTOM_STICKY = 2;
 
     var SLIDE_MIN_TIME = 10, SLIDE_MAX_TIME = 25;
     var STICKY_MIN_TIME = 2, STICKY_MAX_TIME = 3;
