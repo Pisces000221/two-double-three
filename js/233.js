@@ -14,6 +14,13 @@
     var SLIDE_MIN_TIME = 10, SLIDE_MAX_TIME = 25;
     var STICKY_MIN_TIME = 2, STICKY_MAX_TIME = 3;
 
+    function setDurRange(slMin, slMax, stMin, stMax) {
+      if (slMin) SLIDE_MIN_TIME = slMin;
+      if (slMax && slMax >= slMin) SLIDE_MAX_TIME = slMax;
+      if (stMin) STICKY_MIN_TIME = stMin;
+      if (stMax && stMax >= stMin) STICKY_MAX_TIME = stMax;
+    }
+
     function addComment(time, text, colour, type) {
       comments[type].push([time, text, colour]);
     }
@@ -86,6 +93,7 @@
     return {
       addComment: addComment,
       getAll: getAll,
+      setDurRange: setDurRange,
       CMT_SLIDING: CMT_SLIDING,
       CMT_TOP_STICKY: CMT_TOP_STICKY,
       CMT_BOTTOM_STICKY: CMT_BOTTOM_STICKY
