@@ -25,6 +25,10 @@
       comments[type].push([time, text, colour]);
     }
 
+    function reset() {
+      comments = [[], [], []];
+    }
+
     // A quick sort implementation.
     // Sorts an array of array by element [0].
     function sort(a, l, r) {
@@ -92,6 +96,7 @@
 
     return {
       addComment: addComment,
+      reset: reset,
       getOperations: getOperations,
       setDurRange: setDurRange,
       CMT_SLIDING: CMT_SLIDING,
