@@ -46,7 +46,7 @@
       if (j > l) sort(a, l, j);
     }
 
-    function stickyOperations(cmtList, oprList, isSliding, minDur, maxDur, opType) {
+    function generateOperations(cmtList, oprList, isSliding, minDur, maxDur, opType) {
       sort(cmtList);
       var posUsage = [], i, j, cur, found, op, dur, useUntil;
       // Iterate through each comment.
@@ -83,13 +83,13 @@
     function getOperations() {
       var r = [];
       // Sliding comments (type 0)
-      stickyOperations(comments[0], r, true,
+      generateOperations(comments[0], r, true,
         SLIDE_MIN_TIME, SLIDE_MAX_TIME, CMT_SLIDING);
       // Top-sticky comments (type 1)
-      stickyOperations(comments[1], r, false,
+      generateOperations(comments[1], r, false,
         STICKY_MIN_TIME, STICKY_MAX_TIME, CMT_TOP_STICKY);
       // Bottom-sticky comments (type 2)
-      stickyOperations(comments[2], r, false,
+      generateOperations(comments[2], r, false,
         STICKY_MIN_TIME, STICKY_MAX_TIME, CMT_BOTTOM_STICKY);
       return r;
     }
