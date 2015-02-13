@@ -76,7 +76,7 @@
       }
     }
 
-    function getAll() {
+    function getOperations() {
       var r = [];
       // Sliding comments (type 0)
       stickyOperations(comments[0], r, true,
@@ -92,7 +92,7 @@
 
     return {
       addComment: addComment,
-      getAll: getAll,
+      getOperations: getOperations,
       setDurRange: setDurRange,
       CMT_SLIDING: CMT_SLIDING,
       CMT_TOP_STICKY: CMT_TOP_STICKY,
