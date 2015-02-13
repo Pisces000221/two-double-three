@@ -4,14 +4,18 @@
     <meta charset='utf-8'>
     <title></title> 
     <script type='application/javascript' src='233.js'></script>
+    <style>
+      .sliding { position: absolute; }
+      .sticky { position: absolute; left: 0; right: 0; text-align: center; }
+    </style>
   </head>
   <body>
     <script type='application/javascript'>
       function addSliding(id, line, text, duration, colour) {
         var t = document.createElement('p');
         t.textContent = text;
+        t.classList.add('sliding');
         t.style.color = colour;
-        t.style.position = 'absolute';
         t.style.top = (line * 24).toString() + 'px';
         t.style.left = (-t.clientWidth).toString() + 'px';
         t.id = 'slide-' + id.toString();
@@ -34,8 +38,8 @@
       function addSticky(type, id, line, text, colour) {
         var t = document.createElement('p');
         t.textContent = text;
+        t.classList.add('sticky');
         t.style.color = colour;
-        t.style.position = 'absolute';
         t.style[type] = (line * 24).toString() + 'px';
         t.id = type + '-' + id.toString();
         document.body.appendChild(t);
