@@ -32,7 +32,10 @@
     // A quick sort implementation.
     // Sorts an array of array by element [0].
     function sort(a, l, r) {
-      if (l === undefined) { l = 0; r = a.length - 1; }
+      if (l === undefined) {
+        if (a.length === 0) return;
+        l = 0; r = a.length - 1;
+      }
       var i = l, j = r, x = a[(l + r) >> 1][0], t;
       do {
         while (a[i][0] < x) i++;
